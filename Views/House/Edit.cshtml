@@ -1,0 +1,59 @@
+﻿@model House_Data.Models.House
+
+@{
+    ViewData["Title"] = "修改";
+}
+
+<h1>修改</h1>
+
+<h4>物件資料</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id" />
+            <div class="form-group">
+                <label asp-for="name" class="control-label"></label>
+                <input asp-for="name" class="form-control" />
+                <span asp-validation-for="name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="region" class="control-label"></label>
+                <input asp-for="region" class="form-control" />
+                <span asp-validation-for="region" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="area" class="control-label"></label>
+                <input asp-for="area" class="form-control" />
+                <span asp-validation-for="area" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="houseType" class="control-label"></label>
+                <input asp-for="houseType" class="form-control" />
+                <span asp-validation-for="houseType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="houseAge" class="control-label"></label>
+                <input asp-for="houseAge" class="form-control" />
+                <span asp-validation-for="houseAge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="儲存" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">回到列表</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
