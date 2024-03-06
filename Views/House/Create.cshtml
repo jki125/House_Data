@@ -18,6 +18,11 @@
                 <span asp-validation-for="name" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Serial" class="control-label"></label>
+                <input asp-for="Serial" class="form-control" value="由系統產生" readonly />
+                <span asp-validation-for="Serial" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="region" class="control-label"></label>
                 <input asp-for="region" class="form-control" />
                 <span asp-validation-for="region" class="text-danger"></span>
