@@ -55,7 +55,7 @@ namespace House_Data.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,name,region,Amount,area,houseType,houseAge,salesId,cDate,uDate")] House house)
+        public async Task<IActionResult> Create([Bind("id,name,region,Amount,area,houseType,houseAge,salesId,cDate,uDate,Serial")] House house)
         {
             house.Serial = Functions.getHouseSerial();
             house.salesId = 1;//看登入的user是誰

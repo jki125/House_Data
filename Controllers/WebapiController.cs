@@ -22,22 +22,24 @@ namespace House_Data.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var houseListResult = JsonSerializer.Serialize(_context.House.ToList());
-
-            return Json(houseListResult);
+            return Json(_context.House.ToList());
         }
 
         [HttpGet("{id}")]
         public ActionResult Index(int? id)
         {
-            var houseList = _context.House.Where(v => v.id == id);
-            var houseListResult = JsonSerializer.Serialize(houseList.ToList());
+            var house = _context.House.Where(v => v.id == id).FirstOrDefault();
+            if (house == null)
+            {
+                //return NotFound();
+                return Json(new { });
+            }
 
-            return Json(houseListResult);
+            return Json(house);
         }
 
         [HttpPost]
-        public ActionResult AddHouseData([FromBody][Bind("id,name,region,Amount,area,houseType,houseAge,salesId,cDate,uDate")] House house)
+        public ActionResult AddHouseData([FromBody][Bind("id,name,region,Amount,area,houseType,houseAge,salesId,cDate,uDate,Serial")] House house)
         {
             house.Serial = Functions.getHouseSerial();
             house.salesId = 1;//看登入的user是誰
@@ -50,8 +52,7 @@ namespace House_Data.Controllers
                 _context.SaveChanges();
             }
 
-            var houseListResult = JsonSerializer.Serialize(_context.House.ToList());
-            return Json(houseListResult);
+            return Json(_context.House.ToList());
 
         }
         [HttpPut("{id}")]
@@ -66,6 +67,7 @@ namespace House_Data.Controllers
 
             //以下值不修改
             house.id = house_old.id;
+            house.Serial = house_old.Serial;
             house.salesId = house_old.salesId;
             house.cDate = house_old.cDate;
             //設定更新時間
@@ -92,9 +94,7 @@ namespace House_Data.Controllers
                 }
             }
 
-            var houseListResult = JsonSerializer.Serialize(_context.House.ToList());
-            return Json(houseListResult);
-
+            return Json(_context.House.ToList());
         }
 
 
@@ -108,9 +108,7 @@ namespace House_Data.Controllers
                 _context.SaveChanges();
             }
 
-            var houseListResult = JsonSerializer.Serialize(_context.House.ToList());
-            return Json(houseListResult);
-
+            return Json(_context.House.ToList());
         }
 
 
