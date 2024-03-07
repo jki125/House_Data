@@ -30,8 +30,8 @@ namespace House_Data.Controllers
         [HttpGet("{id}")]
         public ActionResult Index(int? id)
         {
-           var houseList = _context.House.Where(v => v.id == id);
-           var houseListResult = JsonSerializer.Serialize(houseList.ToList());
+            var houseList = _context.House.Where(v => v.id == id);
+            var houseListResult = JsonSerializer.Serialize(houseList.ToList());
 
             return Json(houseListResult);
         }
@@ -55,25 +55,33 @@ namespace House_Data.Controllers
 
         }
         [HttpPut("{id}")]
-        public ActionResult UpdateHouseData(int? id,[FromBody][Bind("id,name,region,Amount,area,houseType,houseAge,salesId,cDate,uDate")] House house)
+        public ActionResult UpdateHouseData(int? id, [FromBody][Bind("name,region,Amount,area,houseType,houseAge,salesId,cDate,uDate")] House house)
         {
-            return Content(house.region);
+            var house_old = _context.House.Find(id);
+            _context.Entry(house_old).State = EntityState.Detached;
+            if (house_old == null)
+            {
+                return NotFound();
+            }
+
             //以下值不修改
-            /*
+            house.id = house_old.id;
             house.salesId = house_old.salesId;
             house.cDate = house_old.cDate;
+            //設定更新時間
             house.uDate = DateTime.Now;
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(house);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!HouseExists(house.id))
+                    if (!_context.House.Any(e => e.id == house.id))
                     {
                         return NotFound();
                     }
@@ -82,14 +90,28 @@ namespace House_Data.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
 
             var houseListResult = JsonSerializer.Serialize(_context.House.ToList());
-            return Json(houseListResult);*/
+            return Json(houseListResult);
 
         }
 
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteHouseData(int id)
+        {
+            var house = _context.House.Find(id);
+            if (house != null)
+            {
+                _context.House.Remove(house);
+                _context.SaveChanges();
+            }
+
+            var houseListResult = JsonSerializer.Serialize(_context.House.ToList());
+            return Json(houseListResult);
+
+        }
 
 
 
